@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Luxury Rentals - Alquileres temporarios premium en General Roca, Rio Negro. Departamentos de lujo para vacaciones o viajes de negocios.">
+    <meta name="keywords" content="alquiler temporario, departamentos lujo, General Roca, vacaciones, alojamiento premium">
+    <title>PH | Alquileres temporarios</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+    crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="assets/hero-fondo.webp" as="image">
+</head>
+<body>
+    <!-- Navbar Elegante Mejorado -->
+    <nav class="navbar" aria-label="Navegación principal">
+        <div class="navbar-container">
+            <div class="logo">
+                <img src="asset/ph.png" alt="Luxury Rentals" class="logo-img" width="150" height="50" loading="eager">
+            </div>
+            
+            <div class="menu-container">
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link" aria-current="page"><span class="link-text">Inicio</span></a></li>
+                    <li><a href="#properties" class="nav-link"><span class="link-text">Departamentos</span></a></li>
+                    <li><a href="#services" class="nav-link"><span class="link-text">Servicios</span></a></li>
+                    <li><a href="#contact" class="nav-link"><span class="link-text">Contacto</span></a></li>
+                </ul>
+                
+                <div class="nav-cta">
+                    <a href="#contact" class="btn-cta" aria-label="Reservar ahora">Reservar Ahora</a>
+                </div>
+            </div>
+            
+            <button class="burger" aria-label="Menú móvil" aria-expanded="false">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section con Efecto Parallax -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Encontrá tu <span>Hogar temporal</span></h1>
+            <p>Descubre propiedades únicas para tus próximas vacaciones o viajes de negocios.</p>
+            <a href="#properties" class="btn">Ver Departamentos</a>
+        </div>
+    </section>
+<!-- Sección Servicios -->
+<section id="services" class="services" aria-labelledby="servicios-title">
+    <div class="services-header">
+        <h2 id="servicios-title">Servicios <span>Premium</span></h2>
+        <p class="section-subtitle">Disfruta de comodidades exclusivas que harán de tu estadía una experiencia memorable</p>
+    </div>
+    
+    <div class="services-grid">
+        <div class="service-card">
+            <div class="service-icon">
+                <i class="fas fa-broom" aria-hidden="true"></i>
+                <div class="icon-bg"></div>
+            </div>
+            <h3>Limpieza Profesional</h3>
+            <p>Limpieza con productos de primera calidad y atención meticulosa a cada detalle.</p>
+            <ul class="service-features">
+                <li><i class="fas fa-check-circle"></i> Limpieza profunda </li>
+                <li><i class="fas fa-check-circle"></i> Productos de primera calidad</li>
+            </ul>
+        </div>
+        
+        <div class="service-card">
+            <div class="service-icon">
+                <i class="fas fa-tshirt" aria-hidden="true"></i>
+                <div class="icon-bg"></div>
+            </div>
+            <h3>Ropa Blanca</h3>
+            <p>Toallas y accesorios de baño para garantizar máxima higiene y comodidad.</p>
+            <ul class="service-features">
+                <li><i class="fas fa-check-circle"></i> Sábanas de algodón </li>
+                <li><i class="fas fa-check-circle"></i> Toallas </li>
+                <li><i class="fas fa-check-circle"></i> Cambios según necesidad</li>
+            </ul>
+        </div>
+        
+        <div class="service-card">
+            <div class="service-icon">
+                <i class="fas fa-wifi" aria-hidden="true"></i>
+                <div class="icon-bg"></div>
+            </div>
+            <h3>WiFi </h3>
+            <p>Conexión estable en todas las áreas del departamento para trabajo y entretenimiento.</p>
+            <ul class="service-features">
+                <li><i class="fas fa-check-circle"></i> Fibra óptica 300MB</li>
+                <li><i class="fas fa-check-circle"></i> Cobertura total</li>
+            </ul>
+        </div>
+        
+        <div class="service-card">
+            <div class="service-icon">
+                <i class="fas fa-tv" aria-hidden="true"></i>
+                <div class="icon-bg"></div>
+            </div>
+            <h3>Cable </h3>
+            <p>Paquete completo con todos los canales, incluyendo deportes y películas.</p>
+            <ul class="service-features">
+                <li><i class="fas fa-check-circle"></i> TV </li>
+                <li><i class="fas fa-check-circle"></i> Todos los canales</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="service-cta">
+        <p>Todos nuestros departamentos incluyen estos servicios de forma complementaria</p>
+        <a href="#properties" class="btn btn-secondary">Ver Departamentos</a>
+    </div>
+</section>
+    <!-- Sección Departamentos -->
+    <section id="properties" class="properties" aria-labelledby="propiedades-title">
+        <h2 id="propiedades-title">Nuestros <span>Departamentos</span></h2>
+        <div class="property-grid">
+            <article class="property-card">
+                <div class="property-img" style="background-image: url('asset/hero-fondo.jpg');" role="img" aria-label="Departamento Alsina"></div>
+                <div class="property-info">
+                    <h3>Departamento Alsina</h3>
+                    <p>5 ambientes · WiFi · Garage</p>
+                    <a href="#contact" class="btn-book">Reservar</a>
+                </div>
+            </article>
+            <article class="property-card">
+                <div class="property-img" style="background-image: url('asset/hero-fondo.jpg');" role="img" aria-label="Departamento Canalito"></div>
+                <div class="property-info">
+                    <h3>Departamento Canalito</h3>
+                    <p>4 ambientes · WiFi · Garage</p>
+                    <a href="#contact" class="btn-book">Reservar</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Sección Alrededores -->
+    <section id="explore" class="explore" aria-labelledby="explorar-title">
+        <div class="section-header">
+            <h2 id="explorar-title">Ubicación <span>Privilegiada</span></h2>
+            <p class="section-subtitle">Nuestros departamentos están estratégicamente ubicados cerca de los principales puntos de interés</p>
+        </div>
+        
+        <div class="map-container">
+            <!-- Mapa principal -->
+            <div class="main-map leaflet-container" id="mainMap">
+                <div class="map-overlay">
+                    <h3>Explora la zona</h3>
+                    <p>Haz clic en los marcadores para ver los lugares cercanos</p>
+                </div>
+            </div>
+            
+            <!-- Lista de lugares -->
+            <div class="locations-list">
+                <div class="location-card active" data-lat="-39.031495" data-lng="-67.575717" data-zoom="16">
+                    <div class="location-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="location-info">
+                        <h3>Nuestros Departamentos</h3>
+                        <p>Ubicación central con acceso a todas las comodidades</p>
+                        <ul class="location-details">
+                            <li><i class="fas fa-walking"></i> 5 min al centro</li>
+                            <li><i class="fas fa-subway"></i> 2 min al transporte</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="location-card" data-lat="-39.028855" data-lng="-67.572073" data-zoom="16">
+                    <div class="location-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="location-info">
+                        <h3>Zona Gastronómica</h3>
+                        <p>Los mejores restaurantes y cafés de la ciudad</p>
+                        <ul class="location-details">
+                            <li><i class="fas fa-walking"></i> 3-5 min caminando</li>
+                            <li><i class="fas fa-star"></i> Variedad de cocinas</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="location-card" data-lat="-39.028394" data-lng="-67.575837" data-zoom="16">
+                    <div class="location-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="location-info">
+                        <h3>Área Comercial</h3>
+                        <p>Tiendas y comercios</p>
+                        <ul class="location-details">
+                            <li><i class="fas fa-walking"></i> 5-10 min caminando</li>
+                            <li><i class="fas fa-credit-card"></i> Marcas exclusivas</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="location-card" data-lat="-39.031445" data-lng="-67.574320" data-zoom="16">
+                    <div class="location-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <div class="location-info">
+                        <h3>Parques y Espacios Verdes</h3>
+                        <p>Áreas para relajarse y disfrutar de la naturaleza</p>
+                        <ul class="location-details">
+                            <li><i class="fas fa-walking"></i> 1 min caminando</li>
+                            <li><i class="fas fa-bicycle"></i> Ideal para deportes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="transport-options">
+            <h3>Opciones de Transporte</h3>
+            <div class="transport-grid">
+                <div class="transport-item">
+                    <i class="fas fa-bus"></i>
+                    <p>Parada de Colectivos a 150m</p>
+                </div>
+                <div class="transport-item">
+                    <i class="fas fa-taxi"></i>
+                    <p>Taxi disponible a 150m</p>
+                </div>
+                <div class="transport-item">
+                    <i class="fas fa-parking"></i>
+                    <p>Estacionamiento</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- Sección Contacto Mejorada -->
+<section id="contact" class="contact" aria-labelledby="contacto-title">
+    <div class="contact-container">
+        <div class="contact-header">
+            <h2 id="contacto-title">Contáctanos</h2>
+            <p class="contact-subtitle">Estamos aquí para ayudarte. Elige tu método preferido de contacto.</p>
+        </div>
+        
+        <div class="contact-methods">
+            <!-- Formulario de Contacto -->
+            <div class="contact-form-container">
+                <h3><i class="fas fa-envelope"></i> Envíanos un mensaje</h3>
+                <form id="contact-form" class="contact-form" aria-label="Formulario de contacto">
+                    <div class="form-group">
+                        <label for="nombre">Nombre completo</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono (opcional)</label>
+                        <input type="tel" id="telefono" name="telefono" placeholder="+54 11 1234-5678">
+                    </div>
+                    <div class="form-group">
+                        <label for="mensaje">Mensaje</label>
+                        <textarea id="mensaje" name="mensaje" placeholder="Tu mensaje..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i> Enviar mensaje
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Métodos Alternativos -->
+            <div class="alternative-methods">
+                <div class="contact-option whatsapp-option">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div class="contact-info">
+                        <h3>WhatsApp</h3>
+                        <p>Habla directamente con nuestro equipo</p>
+                        <a href="https://wa.me/5492984650502?text=Hola%20PH%20Alquileres,%20quisiera%20más%20información" 
+                           class="btn-whatsapp" 
+                           target="_blank"
+                           aria-label="Contactar por WhatsApp">
+                            <i class="fab fa-whatsapp"></i> Enviar mensaje
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-option phone-option">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="contact-info">
+                        <h3>Llamada telefónica</h3>
+                        <p>Disponibles de 9:00 a 18:00 hs</p>
+                        <a href="tel:+5491112345678" class="btn-phone" aria-label="Llamar por teléfono">
+                            <i class="fas fa-phone-alt"></i> +54 9 11 1234-5678
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-option email-option">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-info">
+                        <h3>Correo electrónico</h3>
+                        <p>Responderemos en menos de 24 horas</p>
+                        <a href="mailto:info@phalquileres.com" class="btn-email" aria-label="Enviar correo electrónico">
+                            <i class="fas fa-envelope"></i> info@phalquileres.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <footer class="elegant-footer" aria-label="Pie de página">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img src="asset/ph.png" alt="Luxury Rentals" class="footer-logo" width="150" height="50" loading="lazy">
+                <p>Encuentra tu hogar temporal con nuestras propiedades únicas para vacaciones o viajes de negocios.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Enlaces Rápidos</h4>
+                <ul>
+                    <li><a href="#home"><i class="fas fa-chevron-right" aria-hidden="true"></i> Inicio</a></li>
+                    <li><a href="#properties"><i class="fas fa-chevron-right" aria-hidden="true"></i> Departamentos</a></li>
+                    <li><a href="#services"><i class="fas fa-chevron-right" aria-hidden="true"></i> Servicios</a></li>
+                    <li><a href="#explore"><i class="fas fa-chevron-right" aria-hidden="true"></i> Lugares Cercanos</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contacto</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt" aria-hidden="true"></i> General Roca, Rio Negro</li>
+                    <li><i class="fas fa-phone" aria-hidden="true"></i> +54 9 298 4650502</li>
+                    <li><i class="fas fa-envelope" aria-hidden="true"></i> Phalquileres@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="social-links">
+                <a href="https://www.instagram.com/ph.alquileres/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.facebook.com/ph.alquilerestemporarios" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            </div>
+            <p>&copy; 2025 <strong>PH Alquileres temporarios</strong>. Creado por JAD.</p>
+        </div>
+    </footer>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script src="script.js" defer></script>
+</body>
+</html>
