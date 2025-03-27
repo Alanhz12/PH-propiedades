@@ -1,10 +1,9 @@
-// Navbar Profesional Mejorado
 document.addEventListener('DOMContentLoaded', function() {
     // Elementos del DOM
     const navbar = document.querySelector('.navbar');
     const burger = document.querySelector('.burger');
     const menuContainer = document.querySelector('.menu-container');
-    const navLinks = document.querySelectorAll('.nav-link');
+    const navLinks = document.querySelectorAll('.nav-link, .btn-cta');
     const logo = document.querySelector('.logo-img');
     const contactForm = document.getElementById('contact-form');
     const sections = document.querySelectorAll('section');
@@ -12,12 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Estado del menú
     let menuOpen = false;
-    let lastScrollY = window.scrollY;
+    let lastScrollY = window.pageYOffset;
     
     // Inicialización
     initSmoothScrolling();
     initIntersectionObserver();
     initMap();
+    fixMobileLayout();
+    initPropertyGalleries(); // Nueva función para galerías de departamentos
+    loadPropertiesData(); // Cargar datos de propiedades
     
     // Burger Menu
     burger.addEventListener('click', toggleMenu);
@@ -28,9 +30,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Cerrar menú al hacer click en enlaces (mobile)
+    // Cerrar menú al hacer click en enlaces
     navLinks.forEach(link => {
-        link.addEventListener('click', closeMenuOnMobile);
+        link.addEventListener('click', function(e) {
+            if (window.innerWidth <= 992 && menuOpen) {
+                closeMenu();
+            }
+            
+            if (this.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    history.pushState(null, null, this.getAttribute('href'));
+                }
+            }
+        });
     });
     
     // Efecto scroll navbar
@@ -43,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
         contactForm.addEventListener('submit', handleFormSubmit);
     }
     
-    // Precarga de imágenes importantes
+    // Precarga de imágenes
     preloadImages();
     
     // Función para alternar el menú
@@ -55,22 +73,30 @@ document.addEventListener('DOMContentLoaded', function() {
         burger.setAttribute('aria-expanded', menuOpen);
         
         if (menuOpen) {
-            // Enfocar el primer enlace del menú al abrirlo
+            logo.style.filter = 'brightness(0) invert(1)';
             const firstLink = menuContainer.querySelector('a');
-            if (firstLink) {
-                setTimeout(() => firstLink.focus(), 100);
-            }
+            if (firstLink) setTimeout(() => firstLink.focus(), 100);
+        } else {
+            logo.style.filter = '';
         }
     }
     
-    // Función para cerrar el menú en móvil
-    function closeMenuOnMobile() {
-        if (window.innerWidth <= 992) {
-            menuOpen = false;
-            burger.classList.remove('active');
-            menuContainer.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-            burger.setAttribute('aria-expanded', 'false');
+    // Función para cerrar el menú
+    function closeMenu() {
+        if (menuOpen) toggleMenu();
+    }
+    
+    // Función para corregir margen blanco en móviles
+    function fixMobileLayout() {
+        if (window.innerWidth <= 375) {
+            document.documentElement.style.overflowX = 'hidden';
+            document.body.style.overflowX = 'hidden';
+            
+            const containers = document.querySelectorAll('.navbar-container, .hero-content, section');
+            containers.forEach(container => {
+                container.style.maxWidth = '100vw';
+                container.style.overflowX = 'hidden';
+            });
         }
     }
     
@@ -80,9 +106,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (scrollY > 50) {
             navbar.classList.add('scrolled');
-            logo.style.height = '40px';
+            logo.style.height = '60px';
             
-            // Efecto hide/show al hacer scroll
             if (scrollY > lastScrollY && scrollY > 100) {
                 navbar.style.transform = 'translateY(-100%)';
             } else {
@@ -91,13 +116,13 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             navbar.classList.remove('scrolled');
             navbar.style.transform = 'translateY(0)';
-            logo.style.height = '50px';
+            logo.style.height = '60px';
         }
         
         lastScrollY = scrollY;
     }
     
-    // Debounce para optimizar el scroll
+    // Debounce para optimizar eventos
     function debounce(func, wait = 15) {
         let timeout;
         return function() {
@@ -108,60 +133,68 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
     
-   // Manejo del formulario de contacto
-if (document.getElementById('contact-form')) {
-    const contactForm = document.getElementById('contact-form');
-    
-    contactForm.addEventListener('submit', function(e) {
+    // Manejo del formulario de contacto
+    function handleFormSubmit(e) {
         e.preventDefault();
-        
-        const submitBtn = this.querySelector('button[type="submit"]');
+        const form = e.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
         const originalText = submitBtn.innerHTML;
+        
+        // Validar formulario
+        const errors = validateForm(new FormData(form));
+        if (errors.length > 0) {
+            showNotification('error', errors.join('<br>'));
+            return;
+        }
         
         // Mostrar estado de carga
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
         submitBtn.disabled = true;
         
-        // Simular envío (reemplazar con envío real a tu backend)
+        // Simular envío (reemplazar con envío real)
         setTimeout(() => {
-            // Aquí iría la lógica real de envío con fetch()
-            
-            // Mostrar mensaje de éxito
             showNotification('success', '¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.');
-            
-            // Resetear formulario
-            this.reset();
+            form.reset();
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         }, 1500);
-    });
-}
-
-// Mostrar notificación
-function showNotification(type, message) {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.innerHTML = `
-        <p>${message}</p>
-        <button class="close-notification" aria-label="Cerrar notificación">
-            <i class="fas fa-times"></i>
-        </button>
-    `;
+    }
     
-    document.body.appendChild(notification);
+    // Validación de formulario
+    function validateForm(formData) {
+        const errors = [];
+        if (!formData.get('nombre')) errors.push('Nombre es requerido');
+        if (!formData.get('email') || !/^\S+@\S+\.\S+$/.test(formData.get('email'))) {
+            errors.push('Email válido es requerido');
+        }
+        if (!formData.get('mensaje')) errors.push('Mensaje es requerido');
+        return errors;
+    }
     
-    // Auto-ocultar después de 5 segundos
-    setTimeout(() => {
-        notification.classList.add('fade-out');
-        setTimeout(() => notification.remove(), 300);
-    }, 5000);
+    // Mostrar notificación
+    function showNotification(type, message) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <p>${message}</p>
+            <button class="close-notification" aria-label="Cerrar notificación">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.classList.add('fade-out');
+            setTimeout(() => notification.remove(), 300);
+        }, 5000);
+        
+        notification.querySelector('.close-notification').addEventListener('click', () => {
+            notification.classList.add('fade-out');
+            setTimeout(() => notification.remove(), 300);
+        });
+    }
     
-    // Cerrar manualmente
-    notification.querySelector('.close-notification').addEventListener('click', () => {
-        notification.classList.add('fade-out');
-        setTimeout(() => notification.remove(), 300);
-    });
-}
     // Scroll suave para enlaces
     function initSmoothScrolling() {
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -182,17 +215,14 @@ function showNotification(type, message) {
                     behavior: prefersReducedMotion ? 'auto' : 'smooth'
                 });
                 
-                // Actualizar URL sin recargar
                 history.pushState(null, null, targetId);
-                
-                // Mover el foco al elemento destino para accesibilidad
                 targetElement.setAttribute('tabindex', '-1');
                 targetElement.focus();
             });
         });
     }
     
-    // Observer para animaciones al hacer scroll
+    // Observer para animaciones
     function initIntersectionObserver() {
         if (prefersReducedMotion) return;
         
@@ -203,53 +233,31 @@ function showNotification(type, message) {
                     observer.unobserve(entry.target);
                 }
             });
-        }, {
-            threshold: 0.1
-        });
+        }, { threshold: 0.1 });
         
-        sections.forEach(section => {
-            observer.observe(section);
-        });
+        sections.forEach(section => observer.observe(section));
     }
     
     // Inicialización del mapa
     function initMap() {
-        // Verificar si el contenedor del mapa existe
         const mapContainer = document.getElementById('mainMap');
-        if (!mapContainer) {
-            console.error('No se encontró el contenedor del mapa');
-            return;
-        }
-
-        // Verificar si Leaflet está cargado
-        if (typeof L === 'undefined') {
-            console.error('Leaflet no está cargado');
-            return;
-        }
-
-        // Coordenadas iniciales (General Roca, Rio Negro)
+        if (!mapContainer || typeof L === 'undefined') return;
+        
         const defaultLat = -39.031495;
         const defaultLng = -67.575717;
         const defaultZoom = 15;
         
-        // Crear mapa
         const map = L.map('mainMap', {
-            preferCanvas: true, // Mejor rendimiento
-            zoomControl: false // Desactivamos para posicionarlo manualmente
+            preferCanvas: true,
+            zoomControl: false
         }).setView([defaultLat, defaultLng], defaultZoom);
         
-        // Añadir control de zoom personalizado
-        L.control.zoom({
-            position: 'topright'
-        }).addTo(map);
-        
-        // Añadir tiles de OpenStreetMap
+        L.control.zoom({ position: 'topright' }).addTo(map);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             maxZoom: 18,
         }).addTo(map);
         
-        // Estilo para los marcadores
         const goldIcon = L.divIcon({
             className: 'map-marker',
             html: '<i class="fas fa-map-marker-alt"></i>',
@@ -257,7 +265,6 @@ function showNotification(type, message) {
             iconAnchor: [20, 40],
         });
         
-        // Añadir marcadores
         const markers = [
             {
                 lat: -39.031495,
@@ -304,51 +311,47 @@ function showNotification(type, message) {
             }
         ];
         
-        // Añadir marcadores al mapa
         markers.forEach(marker => {
-            const m = L.marker([marker.lat, marker.lng], { icon: marker.icon })
+            L.marker([marker.lat, marker.lng], { icon: marker.icon })
                 .addTo(map)
                 .bindPopup(`<h4>${marker.title}</h4><p>${marker.content}</p>`);
         });
         
-        // Interacción con las tarjetas de ubicación
         const locationCards = document.querySelectorAll('.location-card');
-        
         locationCards.forEach(card => {
             card.addEventListener('click', function() {
-                // Remover clase active de todas las tarjetas
                 locationCards.forEach(c => c.classList.remove('active'));
-                
-                // Añadir clase active a la tarjeta clickeada
                 this.classList.add('active');
                 
-                // Obtener coordenadas y zoom
                 const lat = parseFloat(this.dataset.lat);
                 const lng = parseFloat(this.dataset.lng);
                 const zoom = parseInt(this.dataset.zoom) || defaultZoom;
                 
-                // Mover el mapa a la ubicación seleccionada
                 map.flyTo([lat, lng], zoom, {
-                    duration: 1, // Duración de la animación en segundos
+                    duration: 1,
                     easeLinearity: 0.25
                 });
             });
         });
 
-        // Forzar redimensionamiento del mapa después de la carga
-        setTimeout(() => {
-            map.invalidateSize();
-        }, 200);
+        setTimeout(() => map.invalidateSize(), 200);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => map.invalidateSize(true), 300);
+        });
     }
     
-    // Precarga de imágenes importantes
+    // Precarga de imágenes
     function preloadImages() {
         const images = [
-            'asset/hero-fondo.jpg',
-            'asset/depto-alsina.webp',
-            'asset/depto-canalito.webp',
-            'asset/ph.png',
-            'assets/logo-blanco.webp'
+            'assets/dpto1-1.jpg',
+            'assets/dpto1-2.jpg',
+            'assets/dpto1-3.jpg',
+            'assets/dpto1-4.jpg',
+            'assets/dpto1-5.jpg',
+            'assets/dpto2-1.jpg',
+            'assets/dpto3-1.jpg',
+            'assets/hero-fondo.jpg',
+            'assets/logo-ph.png'
         ];
         
         images.forEach(src => {
@@ -356,4 +359,148 @@ function showNotification(type, message) {
             img.src = src;
         });
     }
+    
+    // Galerías interactivas para departamentos
+    function initPropertyGalleries() {
+        // Cambiar entre pestañas (fotos/videos)
+        document.querySelectorAll('.media-nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabId = this.dataset.tab;
+                const tabContainer = this.closest('.property-media');
+                
+                tabContainer.querySelectorAll('.media-nav-btn').forEach(b => b.classList.remove('active'));
+                tabContainer.querySelectorAll('.media-tab').forEach(t => t.classList.remove('active'));
+                
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Cambiar imagen principal al hacer clic en miniaturas
+        document.querySelectorAll('.thumbnail-grid img').forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                const gallery = this.closest('.gallery');
+                const mainImg = gallery.querySelector('.main-image img');
+                const thumbSrc = this.src.replace('-thumb', '');
+                
+                mainImg.src = thumbSrc;
+                mainImg.alt = this.alt.replace('Miniatura', 'Imagen');
+                
+                gallery.querySelectorAll('.thumbnail-grid img').forEach(img => {
+                    img.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Lazy loading para videos
+        const videoObservers = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const iframe = entry.target;
+                    iframe.src = iframe.dataset.src;
+                    videoObservers.unobserve(iframe);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.video-container iframe').forEach(iframe => {
+            iframe.dataset.src = iframe.src;
+            iframe.src = '';
+            videoObservers.observe(iframe);
+        });
+    }
+    
+    // Cargar datos de propiedades (podría ser desde una API)
+    function loadPropertiesData() {
+        const propertiesData = [
+            {
+                id: 1,
+                name: "Departamento Alsina",
+                ambientes: 5,
+                banios: 2,
+                cochera: true,
+                precio: 85000,
+                fotos: ["dpto1-1.jpg", "dpto1-2.jpg", "dpto1-3.jpg", "dpto1-4.jpg", "dpto1-5.jpg"],
+                videos: ["VIDEO_ID_1", "VIDEO_ID_2"],
+                features: [
+                    "Amplio living-comedor",
+                    "Cocina totalmente equipada",
+                    "2 dormitorios con placard",
+                    "Baño completo y toilette",
+                    "Terraza con parrilla"
+                ]
+            },
+            {
+                id: 2,
+                name: "Departamento Canalito",
+                ambientes: 4,
+                banios: 1,
+                cochera: true,
+                precio: 75000,
+                fotos: ["dpto2-1.jpg", "dpto2-2.jpg", "dpto2-3.jpg", "dpto2-4.jpg", "dpto2-5.jpg"],
+                videos: ["VIDEO_ID_3", "VIDEO_ID_4"],
+                features: [
+                    "Living-comedor integrado",
+                    "Cocina moderna",
+                    "1 dormitorio principal y 1 secundario",
+                    "Baño completo",
+                    "Balcón con vista"
+                ]
+            },
+            {
+                id: 3,
+                name: "Departamento Centro",
+                ambientes: 3,
+                banios: 1,
+                cochera: false,
+                precio: 65000,
+                fotos: ["dpto3-1.jpg", "dpto3-2.jpg", "dpto3-3.jpg", "dpto3-4.jpg", "dpto3-5.jpg"],
+                videos: ["VIDEO_ID_5", "VIDEO_ID_6"],
+                features: [
+                    "Ambiente amplio",
+                    "Cocina integrada",
+                    "1 dormitorio principal",
+                    "Baño completo",
+                    "Excelente ubicación céntrica"
+                ]
+            }
+        ];
+        
+        // Aquí podrías implementar la generación dinámica de las tarjetas
+        // basada en propertiesData si lo prefieres
+        // generatePropertyCards(propertiesData);
+    }
+    
+    // Generar tarjetas de propiedades dinámicamente (opcional)
+    /*
+    function generatePropertyCards(properties) {
+        const propertyGrid = document.querySelector('.property-grid');
+        if (!propertyGrid) return;
+        
+        propertyGrid.innerHTML = '';
+        
+        properties.forEach(property => {
+            const propertyCard = document.createElement('article');
+            propertyCard.className = 'property-card';
+            propertyCard.innerHTML = `
+                <!-- Estructura de la tarjeta como en el HTML -->
+            `;
+            propertyGrid.appendChild(propertyCard);
+        });
+        
+        // Re-inicializar las galerías para las nuevas tarjetas
+        initPropertyGalleries();
+    }
+    */
+    
+    // Escuchar cambios de tamaño de ventana
+    window.addEventListener('resize', debounce(() => {
+        fixMobileLayout();
+    }, 100));
+    
+    // Mostrar navbar después de la carga
+    window.addEventListener('load', () => {
+        navbar.classList.add('loaded');
+    });
 });

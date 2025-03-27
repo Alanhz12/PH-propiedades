@@ -75,7 +75,7 @@ img {
     left: 0;
     width: 100%;
     z-index: 1000;
-    background:rgba(75, 55, 5, 0.3);
+    background:rgba(75, 55, 5, 0.438);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     box-shadow: var(--shadow-sm);
@@ -84,7 +84,7 @@ img {
 }
 
 .navbar.scrolled {
-    background: rgba(255, 255, 255, 0.041);
+    background: rgba(255, 255, 255, 0.623);
     box-shadow: var(--shadow-md);
 }
 
@@ -98,7 +98,7 @@ img {
 }
 
 .logo-img {
-    height: 50px;
+    height: 60px;
     width: auto;
     transition: var(--transition);
     object-fit: contain;
@@ -216,7 +216,7 @@ img {
 .hero {
     height: 100vh;
     min-height: 600px;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('asset/hero-fondo.jpg') no-repeat center center/cover;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('asset/fondo-hero3.png') no-repeat center center/cover;
     background-attachment: fixed;
     display: flex;
     align-items: center;
@@ -270,21 +270,59 @@ img {
     outline: none;
 }
 
-/* Sección Departamentos */
+/* Estilos para la sección de propiedades */
 .properties {
     background: white;
+    padding: 5rem 2rem;
+    position: relative;
+}
+
+.properties .section-header {
     text-align: center;
+    max-width: 800px;
+    margin: 0 auto 3rem;
 }
 
-.properties h2 {
+.properties .section-header h2 {
     font-size: clamp(2rem, 4vw, 2.5rem);
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+    font-family: var(--font-heading);
+    color: var(--dark);
 }
 
+.properties .section-header h2 span {
+    color: var(--secondary);
+}
+
+.properties .section-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--secondary);
+}
+
+.properties .section-subtitle {
+    color: var(--gray-dark);
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    line-height: 1.6;
+    text-align: center;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ESTILOS EXISTENTES DE PROPIEDADES (se mantienen igual) */
 .property-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2.5rem;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -295,51 +333,213 @@ img {
     overflow: hidden;
     box-shadow: var(--shadow-md);
     transition: var(--transition);
-    will-change: transform;
+    display: flex;
+    flex-direction: column;
 }
 
-.property-card:hover,
-.property-card:focus-within {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-lg);
+.property-header {
+    padding: 1.5rem 1.5rem 0;
 }
 
-.property-img {
-    height: 250px;
-    background-size: cover;
-    background-position: center;
-    transition: var(--transition);
-}
-
-.property-card:hover .property-img {
-    transform: scale(1.05);
-}
-
-.property-info {
-    padding: 1.5rem;
-    text-align: left;
-}
-
-.property-info h3 {
+.property-header h3 {
     font-size: 1.5rem;
+    color: var(--primary);
     margin-bottom: 0.5rem;
 }
 
-.property-info p {
-    color: var(--gray-dark);
+.property-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
     margin-bottom: 1rem;
+}
+
+.badge {
+    background: rgba(184, 134, 11, 0.1);
+    color: var(--secondary-dark);
+    padding: 0.3rem 0.8rem;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.badge i {
+    font-size: 0.7rem;
+}
+
+.property-media {
+    position: relative;
+    height: 300px;
+}
+
+.media-nav {
+    display: flex;
+    padding: 0 1.5rem;
+    gap: 0.5rem;
+}
+
+.media-nav-btn {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius-full);
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+}
+
+.media-nav-btn.active, 
+.media-nav-btn:hover {
+    background: var(--secondary);
+    color: white;
+    border-color: var(--secondary);
+}
+
+.media-nav-btn i {
+    font-size: 0.8rem;
+}
+
+.media-tab {
+    display: none;
+    height: 100%;
+}
+
+.media-tab.active {
+    display: block;
+}
+
+.gallery {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding: 0 1.5rem;
+}
+
+.main-image {
+    height: 220px;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+}
+
+.main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.main-image:hover img {
+    transform: scale(1.03);
+}
+
+.thumbnail-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+    padding: 1rem 0;
+}
+
+.thumbnail-grid img {
+    width: 100%;
+    height: 50px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.thumbnail-grid img:hover, 
+.thumbnail-grid img.active {
+    border-color: var(--secondary);
+    transform: translateY(-3px);
+}
+
+.video-gallery {
+    padding: 0 1.5rem;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem;
+}
+
+.video-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.video-container p {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.5rem;
+    margin: 0;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.property-details {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.features-list {
+    list-style: none;
+    margin: 1rem 0;
+    flex-grow: 1;
+}
+
+.features-list li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.features-list i {
+    color: var(--secondary);
+    font-size: 0.8rem;
+}
+
+.property-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
 }
 
 .price {
-    display: block;
-    font-size: 1.3rem;
-    font-weight: 700;
     color: var(--primary);
-    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.price .amount {
+    font-size: 1.5rem;
+}
+
+.price .period {
+    font-size: 0.9rem;
+    color: var(--gray-dark);
 }
 
 .btn-book {
-    display: inline-block;
     padding: 0.6rem 1.5rem;
     background: var(--primary);
     color: white;
@@ -348,14 +548,15 @@ img {
     transition: var(--transition);
     border: none;
     cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
 }
 
-.btn-book:hover,
-.btn-book:focus {
+.btn-book:hover {
     background: var(--primary-light);
-    outline: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 /* Sección Servicios */
 .services {
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
@@ -810,6 +1011,7 @@ img {
     font-weight: 500;
 }
 
+
 /* Estilos para la sección de contacto mejorada */
 .contact {
     background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
@@ -1043,7 +1245,7 @@ img {
 }
 
 .footer-logo {
-    height: 50px;
+    height: 150px;
     width: auto;
     margin-bottom: 1.5rem;
     filter: brightness(0) invert(1);
@@ -1184,7 +1386,7 @@ img {
 }
 
 
-/* Responsive Design */
+/* Responsive Design - Versión Mejorada */
 @media (max-width: 992px) {
     .menu-container {
         position: fixed;
@@ -1199,6 +1401,7 @@ img {
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
         transition: var(--transition);
         padding: 2rem;
+        z-index: 999;
     }
     
     .menu-container.active {
@@ -1219,11 +1422,15 @@ img {
         display: flex;
     }
 
+    /* Mejora para la sección de contacto */
+    .contact-methods {
+        grid-template-columns: 1fr;
+    }
+    
     .service-circle {
         width: 180px;
         height: 180px;
     }
-    
 }
 
 @media (max-width: 768px) {
@@ -1233,49 +1440,101 @@ img {
 
     .logo-img,
     .footer-logo {
-        height: 40px;
+        height: 150px;
     }
 
     .hero {
         min-height: 500px;
+        background-attachment: scroll; /* Mejora rendimiento en móviles */
     }
 
-    .property-grid,
-    .places-grid {
-        grid-template-columns: 1fr;
+    /* Galería de propiedades optimizada */
+    .property-media {
+        height: 250px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        display: flex;
+        -webkit-overflow-scrolling: touch; /* Mejor scroll en iOS */
+    }
+      
+    .gallery {
+        display: flex;
+        flex-direction: column;
+        min-width: 100%;
+    }
+      
+    .main-image {
+        height: 180px;
+        scroll-snap-align: start;
+        flex-shrink: 0;
+    }
+      
+    .thumbnail-grid {
+        display: flex;
+        overflow-x: auto;
+        padding: 0.5rem 0;
+        gap: 0.5rem;
+        scrollbar-width: none; /* Ocultar scrollbar en Firefox */
+    }
+      
+    .thumbnail-grid::-webkit-scrollbar {
+        display: none; /* Ocultar scrollbar en Chrome/Safari */
+    }
+      
+    .thumbnail-grid img {
+        width: 60px;
+        height: 60px;
+        flex-shrink: 0;
+    }
+      
+    .property-details {
+        padding-top: 2rem;
+    }
+
+    /* Mejoras específicas para contacto */
+    .contact-form-container {
+        padding: 1.2rem;
+    }
+    
+    .contact-option {
+        padding: 1.2rem;
     }
 }
 
 @media (max-width: 576px) {
     .navbar-container {
-        padding: 1rem;
+        padding: 0.8rem;
     }
 
     .hero-content h1 {
-        font-size: 2.2rem;
+        font-size: 2rem;
+        line-height: 1.2;
     }
 
     .btn, 
     .btn-cta {
-        padding: 0.7rem 1.5rem;
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
     }
 
     .services {
-        padding: 3rem 1.5rem;
+        padding: 2.5rem 1rem;
     }
     
     .services-grid {
         grid-template-columns: 1fr;
-        max-width: 500px;
+        max-width: 100%;
+        gap: 1.5rem;
     }
     
     .service-card {
-        padding: 1.5rem;
+        padding: 1.2rem;
     }
 
     .footer-container {
         grid-template-columns: 1fr;
         text-align: center;
+        gap: 2rem;
     }
 
     .footer-links ul,
@@ -1288,6 +1547,156 @@ img {
     .footer-contact h4::after {
         left: 50%;
         transform: translateX(-50%);
+    }
+
+    /* Optimización de contacto para móviles */
+    .contact {
+        padding: 2rem 1rem;
+    }
+    
+    .contact-form input,
+    .contact-form textarea {
+        padding: 0.7rem;
+    }
+    
+    .btn-whatsapp, 
+    .btn-phone, 
+    .btn-email {
+        padding: 0.6rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Móviles pequeños (375px - 425px) */
+@media (max-width: 425px) {
+    .navbar-container,
+    .hero-content,
+    .services,
+    .properties,
+    .explore,
+    .contact {
+        padding-left: 0.8rem;
+        padding-right: 0.8rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .hero-content p {
+        font-size: 0.95rem;
+    }
+    
+    .property-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    /* Contacto - ajustes finos */
+    .contact-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .contact-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .form-group label {
+        font-size: 0.85rem;
+    }
+    
+    .contact-form input,
+    .contact-form textarea {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+    
+    .contact-option {
+        padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .contact-info {
+        text-align: center;
+    }
+}
+
+@media (max-width: 375px) {
+    :root {
+        font-size: 58%; /* Ajuste base para mejor escalado */
+    }
+    
+    .navbar-container {
+        padding: 0.6rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.7rem;
+    }
+    
+    .btn, 
+    .btn-cta {
+        padding: 0.6rem 1rem;
+    }
+    
+    .property-card {
+        border-radius: var(--radius-md);
+    }
+
+    /* Contacto - ajustes adicionales */
+    .contact {
+        padding: 1.5rem 0.8rem;
+    }
+    
+    .contact-form-container {
+        padding: 1rem;
+    }
+    
+    .contact-form {
+        gap: 0.8rem;
+    }
+    
+    .btn-submit {
+        padding: 0.7rem;
+    }
+    
+    .btn-whatsapp, 
+    .btn-phone, 
+    .btn-email {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Ajustes para orientación horizontal */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero {
+        min-height: 100vh;
+        padding-top: 60px;
+    }
+    
+    .contact-methods {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .contact-form-container,
+    .alternative-methods {
+        flex: 1 1 300px;
+    }
+    
+    .contact-form textarea {
+        height: 80px;
+        min-height: 80px;
+    }
+    
+    .property-media {
+        height: 200px;
+    }
+    
+    .main-image {
+        height: 140px;
     }
 }
 
