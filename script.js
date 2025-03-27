@@ -133,32 +133,49 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
     
-    // Manejo del formulario de contacto
-    function handleFormSubmit(e) {
-        e.preventDefault();
-        const form = e.target;
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        
-        // Validar formulario
-        const errors = validateForm(new FormData(form));
-        if (errors.length > 0) {
-            showNotification('error', errors.join('<br>'));
-            return;
+    // Reemplaza la función handleFormSubmit con esta versión:
+function handleFormSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    // Validar formulario
+    const errors = validateForm(new FormData(form));
+    if (errors.length > 0) {
+        showNotification('error', errors.join('<br>'));
+        return;
+    }
+    
+    // Mostrar estado de carga
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+    submitBtn.disabled = true;
+    
+    // Envío real a Formspree
+    fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+            'Accept': 'application/json'
         }
-        
-        // Mostrar estado de carga
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-        submitBtn.disabled = true;
-        
-        // Simular envío (reemplazar con envío real)
-        setTimeout(() => {
+    })
+    .then(response => {
+        if (response.ok) {
             showNotification('success', '¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.');
             form.reset();
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }, 1500);
-    }
+        } else {
+            throw new Error('Error en el envío');
+        }
+    })
+    .catch(error => {
+        showNotification('error', 'Hubo un error al enviar el mensaje. Por favor intenta nuevamente.');
+        console.error('Error:', error);
+    })
+    .finally(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+}
     
     // Validación de formulario
     function validateForm(formData) {
@@ -422,7 +439,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 cochera: true,
                 precio: 85000,
                 fotos: ["dpto1-1.jpg", "dpto1-2.jpg", "dpto1-3.jpg", "dpto1-4.jpg", "dpto1-5.jpg"],
-                videos: ["VIDEO_ID_1", "VIDEO_ID_2"],
                 features: [
                     "Amplio living-comedor",
                     "Cocina totalmente equipada",
@@ -439,7 +455,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 cochera: true,
                 precio: 75000,
                 fotos: ["dpto2-1.jpg", "dpto2-2.jpg", "dpto2-3.jpg", "dpto2-4.jpg", "dpto2-5.jpg"],
-                videos: ["VIDEO_ID_3", "VIDEO_ID_4"],
                 features: [
                     "Living-comedor integrado",
                     "Cocina moderna",
@@ -456,7 +471,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 cochera: false,
                 precio: 65000,
                 fotos: ["dpto3-1.jpg", "dpto3-2.jpg", "dpto3-3.jpg", "dpto3-4.jpg", "dpto3-5.jpg"],
-                videos: ["VIDEO_ID_5", "VIDEO_ID_6"],
                 features: [
                     "Ambiente amplio",
                     "Cocina integrada",

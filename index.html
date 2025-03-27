@@ -132,7 +132,7 @@
             <div class="property-header">
                 <h3>Departamento 1 | Canalito</h3>
                 <div class="property-badges">
-                    <span class="badge"><i class="fas fa-door-open"></i> 5 ambientes</span>
+                    <span class="badge"><i class="fas fa-door-open"></i> 4 ambientes</span>
                     <span class="badge"><i class="fas fa-bath"></i> 1 baños</span>
                     <span class="badge"><i class="fas fa-car"></i> Cochera</span>
                 </div>
@@ -182,7 +182,7 @@
             <div class="property-header">
                 <h3>Casa|Alsina</h3>
                 <div class="property-badges">
-                    <span class="badge"><i class="fas fa-door-open"></i> 6 ambientes</span>
+                    <span class="badge"><i class="fas fa-door-open"></i> 5 ambientes</span>
                     <span class="badge"><i class="fas fa-bath"></i> 2 baños</span>
                     <span class="badge"><i class="fas fa-car"></i> Cochera</span>
                 </div>
@@ -387,7 +387,7 @@
             <!-- Formulario de Contacto -->
             <div class="contact-form-container">
                 <h3><i class="fas fa-envelope"></i> Envíanos un mensaje</h3>
-                <form id="contact-form" class="contact-form" aria-label="Formulario de contacto">
+                <form id="contact-form" class="contact-form" action="https://formspree.io/f/mrbpagnl" method="POST">
                     <div class="form-group">
                         <label for="nombre">Nombre completo</label>
                         <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
@@ -404,6 +404,10 @@
                         <label for="mensaje">Mensaje</label>
                         <textarea id="mensaje" name="mensaje" placeholder="Tu mensaje..." required></textarea>
                     </div>
+                    <!-- Campo oculto para redirección después del envío (opcional) -->
+                    <input type="hidden" name="_next" value="https://tudominio.com/gracias.html">
+                    <!-- Campo para evitar spam -->
+                    <input type="text" name="_gotcha" style="display:none">
                     <button type="submit" class="btn-submit">
                         <i class="fas fa-paper-plane"></i> Enviar mensaje
                     </button>
@@ -435,7 +439,7 @@
                     <div class="contact-info">
                         <h3>Llamada telefónica</h3>
                         <p>Disponibles de 9:00 a 18:00 hs</p>
-                        <a href="tel:+5491112345678" class="btn-phone" aria-label="Llamar por teléfono">
+                        <a href="tel:+549 298 4650502" class="btn-phone" aria-label="Llamar por teléfono">
                             <i class="fas fa-phone-alt"></i> +54 9 298 4650502
                         </a>
                     </div>
@@ -485,7 +489,7 @@
         <div class="footer-bottom">
             <div class="social-links">
                 <a href="https://www.instagram.com/ph.alquileres/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://wa.me/5492984650502?text=Hola%20PH%20Alquileres,%20quisiera%20más%20información" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 <a href="https://www.facebook.com/ph.alquilerestemporarios" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             </div>
             <p>&copy; 2025 <strong>PH Alquileres temporarios</strong>. Creado por JAD.</p>
