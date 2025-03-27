@@ -216,7 +216,7 @@ img {
 .hero {
     height: 100vh;
     min-height: 600px;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('asset/fondo-hero3.png') no-repeat center center/cover;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('asset/fondo-hero4.jpg') no-repeat center center/cover;
     background-attachment: fixed;
     display: flex;
     align-items: center;
